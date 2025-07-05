@@ -485,3 +485,7 @@ $RECYCLE.BIN/
 
 # Migrations Entity Framework
 /Migrations
+
+# Bin and obj folders
+/bin
+/obj
