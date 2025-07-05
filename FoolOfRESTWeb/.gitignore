@@ -484,5 +484,5 @@ $RECYCLE.BIN/
 *.swp
 
 # Bin and obj folders
-/bin
-/obj
+bin/
+obj/

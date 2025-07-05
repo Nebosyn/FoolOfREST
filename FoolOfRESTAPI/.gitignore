@@ -484,8 +484,8 @@ $RECYCLE.BIN/
 *.swp
 
 # Migrations Entity Framework
-/Migrations
+Migrations/
 
 # Bin and obj folders
-/bin
-/obj
+bin/
+obj/
