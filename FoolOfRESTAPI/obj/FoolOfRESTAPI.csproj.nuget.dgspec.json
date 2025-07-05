@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/nebosyn/Desktop/Code/csharp/FoolOfRESTAPI/FoolOfRESTAPI.csproj": {}
+    "/home/nebosyn/Desktop/Code/csharp/FoolOfREST/FoolOfRESTAPI/FoolOfRESTAPI.csproj": {}
   },
   "projects": {
-    "/home/nebosyn/Desktop/Code/csharp/FoolOfRESTAPI/FoolOfRESTAPI.csproj": {
+    "/home/nebosyn/Desktop/Code/csharp/FoolOfREST/FoolOfRESTAPI/FoolOfRESTAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/nebosyn/Desktop/Code/csharp/FoolOfRESTAPI/FoolOfRESTAPI.csproj",
+        "projectUniqueName": "/home/nebosyn/Desktop/Code/csharp/FoolOfREST/FoolOfRESTAPI/FoolOfRESTAPI.csproj",
         "projectName": "FoolOfRESTAPI",
-        "projectPath": "/home/nebosyn/Desktop/Code/csharp/FoolOfRESTAPI/FoolOfRESTAPI.csproj",
+        "projectPath": "/home/nebosyn/Desktop/Code/csharp/FoolOfREST/FoolOfRESTAPI/FoolOfRESTAPI.csproj",
         "packagesPath": "/home/nebosyn/.nuget/packages/",
-        "outputPath": "/home/nebosyn/Desktop/Code/csharp/FoolOfRESTAPI/obj/",
+        "outputPath": "/home/nebosyn/Desktop/Code/csharp/FoolOfREST/FoolOfRESTAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/nebosyn/.nuget/NuGet/NuGet.Config"
@@ -47,6 +47,10 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.6, )"
             }
           },
           "imports": [
