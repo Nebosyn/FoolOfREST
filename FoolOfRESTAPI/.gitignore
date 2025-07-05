@@ -487,5 +487,5 @@ $RECYCLE.BIN/
 Migrations/
 
 # Bin and obj folders
-bin/
-obj/
+FoolOfRESTAPI/bin/
+FoolOfRESTAPI/obj/
