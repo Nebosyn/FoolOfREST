@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("92325ab1-4d87-4076-91bd-449a4f3094ea")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("FoolOfRESTAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+703679668260a16aa8614a867fe659b867252698")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8a35923f061416427d72befca0f51957e740eb2")]
 [assembly: System.Reflection.AssemblyProductAttribute("FoolOfRESTAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FoolOfRESTAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
