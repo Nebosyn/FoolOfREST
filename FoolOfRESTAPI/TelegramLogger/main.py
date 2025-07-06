@@ -9,7 +9,7 @@ def main():
     bot.app.run_polling()
 
 if __name__ == "__main__":
-    logging.basicConfig(format="%(asctime)s - %(name)s - %(message)s",
-                        level=logging.INFO)
+    #logging.basicConfig(format="%(asctime)s - %(name)s - %(message)s",
+    #                    level=logging.INFO)
     load_dotenv()
     main()
