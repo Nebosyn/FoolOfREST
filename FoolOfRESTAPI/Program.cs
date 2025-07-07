@@ -47,6 +47,20 @@ app.MapGet("messages", ([FromServices] AppDbContext db) =>
     return Results.Ok(response);
 });
 
+app.MapGet("usermessages/{userid}", (int userId,[FromServices] AppDbContext db) =>
+{
+    List<MessageResponseModel> response = new();
+    response.AddRange(db.Messages.Where(msg=>msg.UserId==userId).Select(msg => new MessageResponseModel(msg)));
+    return Results.Ok(response);
+});
+
+app.MapGet("chatmessages/{chatid}", (string chatId,[FromServices] AppDbContext db) =>
+{
+    List<MessageResponseModel> response = new();
+    response.AddRange(db.Messages.Where(msg=>msg.ChatId==chatId).Select(msg => new MessageResponseModel(msg)));
+    return Results.Ok(response);
+});
+
 app.MapGet("users/{id}", async (int id, [FromServices] AppDbContext db) =>
 {
 	try
