@@ -1,3 +1,4 @@
+using FoolOfRESTAPI.Models.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,8 +26,9 @@ app.MapGet("messages/{id}", async (int id, [FromServices] AppDbContext db) =>
 {
 	try
 	{
-        var res = await db.Messages.FirstAsync(x => x.Id == id);
-        return Results.Ok(res);
+        var msg = await db.Messages.FirstAsync(x => x.Id == id);
+        MessageResponseModel response = new(msg); 
+        return Results.Ok(response);
     }
 	catch (InvalidOperationException e)
 	{
@@ -36,6 +38,13 @@ app.MapGet("messages/{id}", async (int id, [FromServices] AppDbContext db) =>
         }
         throw;
 	}
+});
+
+app.MapGet("messages", ([FromServices] AppDbContext db) =>
+{
+    List<MessageResponseModel> response = new();
+    response.AddRange(db.Messages.Select(msg => new MessageResponseModel(msg)));
+    return Results.Ok(response);
 });
 
 app.MapGet("users/{id}", async (int id, [FromServices] AppDbContext db) =>
