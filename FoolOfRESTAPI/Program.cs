@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("messages/{id}", async (int id, AppDbContext db) =>
+app.MapGet("messages/{id}", async (int id, [FromServices] AppDbContext db) =>
 {
     var res = await db.Messages.FirstAsync(x=>x.Id==id);
     return res;
