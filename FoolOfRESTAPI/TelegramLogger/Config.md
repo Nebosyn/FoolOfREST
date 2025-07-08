@@ -4,8 +4,8 @@
 >
 > Please make sure that python is installed and added to PATH environment table on your system before executing installation script.
 
-### Manual configuration
-To configure virtual environment we essentially need only to commands. 
+### Manual
+To configure virtual environment we essentially need only several commands. 
 
 First we'll need too create venv:
 ```console
@@ -23,7 +23,7 @@ Lastly we'll install python required packages:
 ``` console
 $ pip install -r requirements.txt
 ```
-### Script configuration 
+### Using script 
 - ### Linux
 **```config_venv.sh```**
 - ### Windows
@@ -37,7 +37,7 @@ CONNECTION_STRING = "<POSTGRES_CONFIGURATION_STRING>"
 ```
 > [!WARNING]
 >
-> Please note that variables in the configuration string should be written in lowcase.
+> Please note that variables in the configuration string should be written in lowercase.
 >**CONNECTION_STRING** example:
 >
 >``` CONNECTION_STRING = "host=localhost port=5432 dbname=Database user=username"```
