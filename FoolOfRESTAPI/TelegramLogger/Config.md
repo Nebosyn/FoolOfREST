@@ -1,8 +1,5 @@
 # Python logger configuration
 ## Configuring python virtual environment
-> [!NOTE]
->
-> Please make sure that python is installed and added to PATH environment table on your system before executing installation script.
 
 ### Manual
 To configure virtual environment we essentially need only several commands. 
@@ -24,6 +21,9 @@ Lastly we'll install python required packages:
 $ pip install -r requirements.txt
 ```
 ### Using script 
+> [!NOTE]
+>
+> Please make sure that python is installed and added to PATH environment table on your system before executing installation script.
 - ### Linux
 **```config_venv.sh```**
 - ### Windows
