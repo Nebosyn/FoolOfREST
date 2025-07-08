@@ -1,10 +1,10 @@
 # Python logger configuration
 ## Configuring python virtual environment
 
-### Manual
+### Manually
 To configure virtual environment we essentially need only several commands. 
 
-First we'll need too create venv:
+First we'll need to create venv:
 ```console
 $ python -m venv .venv
 ```
