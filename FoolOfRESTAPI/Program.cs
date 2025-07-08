@@ -1,3 +1,5 @@
+using FoolOfRESTAPI.Models.ResponseModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,28 +22,78 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapGet("messages/{id}", async (int id, [FromServices] AppDbContext db) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+	try
+	{
+        var msg = await db.Messages.FirstAsync(x => x.Id == id);
+        MessageResponseModel response = new(msg); 
+        return Results.Ok(response);
+    }
+	catch (InvalidOperationException e)
+	{
+        if (e.Message== "Sequence contains no elements.")
+        {
+            return Results.NotFound();
+        }
+        throw;
+	}
+});
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("messages", ([FromServices] AppDbContext db) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    List<MessageResponseModel> response = new();
+    response.AddRange(db.Messages.Select(msg => new MessageResponseModel(msg)));
+    return Results.Ok(response);
+});
+
+app.MapGet("usermessages/{userid}", (int userId,[FromServices] AppDbContext db) =>
+{
+    List<MessageResponseModel> response = new();
+    response.AddRange(db.Messages.Where(msg=>msg.UserId==userId).Select(msg => new MessageResponseModel(msg)));
+    return Results.Ok(response);
+});
+
+app.MapGet("chatmessages/{chatid}", (string chatId,[FromServices] AppDbContext db) =>
+{
+    List<MessageResponseModel> response = new();
+    response.AddRange(db.Messages.Where(msg=>msg.ChatId==chatId).Select(msg => new MessageResponseModel(msg)));
+    return Results.Ok(response);
+});
+
+app.MapGet("users/{id}", async (int id, [FromServices] AppDbContext db) =>
+{
+	try
+	{
+        var res = await db.Users.FirstAsync(x => x.Id == id);
+        return Results.Ok(res);
+    }
+	catch (InvalidOperationException e)
+	{
+        if (e.Message== "Sequence contains no elements.")
+        {
+            return Results.NotFound();
+        }
+        throw;
+	}
+});
+
+app.MapGet("Chats/{id}", async (string id, [FromServices] AppDbContext db) =>
+{
+	try
+	{
+        var res = await db.Chats.FirstAsync(x => x.Id == id);
+        return Results.Ok(res);
+    }
+	catch (InvalidOperationException e)
+	{
+        if (e.Message== "Sequence contains no elements.")
+        {
+            return Results.NotFound();
+        }
+        throw;
+	}
+});
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
