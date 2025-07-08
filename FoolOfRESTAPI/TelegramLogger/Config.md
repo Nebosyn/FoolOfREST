@@ -1,5 +1,5 @@
 # Python logger configuration
-## Configuring python virtual environment
+## Configuring python's virtual environment
 
 ### Manually
 To configure virtual environment we essentially need only several commands. 
