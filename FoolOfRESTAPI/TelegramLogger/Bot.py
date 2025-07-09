@@ -17,6 +17,8 @@ class Logger():
 
         self.__init_handlers()
         self.__init_database()
+        print("Bot successfully initiated.")
+        print("Logging started...")
         
     def __init_handlers(self):
         self.app.add_handler(MessageHandler(filters.TEXT, Handlers.message_sent)) 
