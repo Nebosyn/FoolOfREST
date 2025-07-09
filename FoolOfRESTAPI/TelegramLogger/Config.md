@@ -39,6 +39,7 @@ $ pip install -r requirements.txt
 > 
 > Before running the script you need to change execution policy of your powershell terminal, you can do this with this command:
 >```Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force```
+
 **```config_venv.ps1```**
 ## Configuring python's environment table.
 Before launching the program you need to:
