@@ -1,4 +1,6 @@
 # Python logger configuration
+## Python version
+For this project please use python version 3.12 or 3.13. Psycopg2 library used in this repository, isn't supported by python 3.14.
 ## Configuring python's virtual environment
 
 ### Manually
