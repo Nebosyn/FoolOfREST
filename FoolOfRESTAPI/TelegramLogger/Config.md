@@ -14,9 +14,15 @@ then source into it via activation file inside ```/.venv/bin/activate```:
 ```console
 $ source .venv/bin/activate
 ```
-or if using **Windows** source via ```activate.bat``` script:
+or if using **Windows** source via ```activate.bat``` script inside powershell terminal:
+
+> [!NOTE]
+> 
+> Before running the script you need to change execution policy of your powershell terminal, you can do this with this command:
+>```Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force```
+
 ```console
-> .\.venv\bin\activate.bat
+> .\.venv\bin\activate.ps1
 ```
 Lastly we'll install python required packages:
 ``` console
@@ -29,6 +35,10 @@ $ pip install -r requirements.txt
 - ### Linux
 **```config_venv.sh```**
 - ### Windows
+> [!NOTE]
+> 
+> Before running the script you need to change execution policy of your powershell terminal, you can do this with this command:
+>```Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force```
 **```config_venv.ps1```**
 ## Configuring python's environment table.
 Before launching the program you need to write two variables in .env file in the directory of the python script:
