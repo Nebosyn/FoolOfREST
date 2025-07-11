@@ -61,12 +61,12 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("users/{id}")]
         [HttpGet]
-        public async Task<Results<Ok<User>, NotFound>> UserById([FromRoute] int id)
+        public async Task<Results<Ok<UserResponseModel>, NotFound>> UserById([FromRoute] int id)
         {
             try
             {
                 var res = await _db.Users.FirstAsync(x => x.Id == id);
-                return TypedResults.Ok(res);
+                return TypedResults.Ok(new UserResponseModel(res));
             }
             catch (InvalidOperationException e)
             {
@@ -80,12 +80,12 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("chats/{id}")]
         [HttpGet]
-        public async Task<Results<Ok<Chat>, NotFound>> ChatById([FromRoute] string id)
+        public async Task<Results<Ok<ChatResponseModel>, NotFound>> ChatById([FromRoute] string id)
         {
             try
             {
                 var res = await _db.Chats.FirstAsync(x => x.Id == id);
-                return TypedResults.Ok(res);
+                return TypedResults.Ok(new ChatResponseModel(res));
             }
             catch (InvalidOperationException e)
             {
