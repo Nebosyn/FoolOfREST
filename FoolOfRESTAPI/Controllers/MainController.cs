@@ -16,7 +16,7 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("messages")]
         [HttpGet]
-        public async Task<Results<Ok<IEnumerable<MessageResponseModel>>, BadRequest>> Messages()
+        public async Task<Ok<IEnumerable<MessageResponseModel>>> Messages()
         {
             List<Message> messages = await _db.Messages.ToListAsync();
             return TypedResults.Ok(messages.Select(msg => new MessageResponseModel(msg)));
@@ -24,7 +24,7 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("usermessages/{userid}")]
         [HttpGet]
-        public async Task<Results<Ok<IEnumerable<MessageResponseModel>>, BadRequest>> UsersMessages([FromRoute] int userid)
+        public async Task<Ok<IEnumerable<MessageResponseModel>>> UsersMessages([FromRoute] int userid)
         {
             List<Message> messages = await _db.Messages.Where(msg => msg.UserId == userid).ToListAsync();
             return TypedResults.Ok(messages.Select(msg => new MessageResponseModel(msg)));
@@ -32,7 +32,7 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("chatmessages/{chatid}")]
         [HttpGet]
-        public async Task<Results<Ok<IEnumerable<MessageResponseModel>>, BadRequest>> ChatsMessages([FromRoute] string chatid)
+        public async Task<Ok<IEnumerable<MessageResponseModel>>>ChatsMessages([FromRoute] string chatid)
         {
             List<Message> messages = await _db.Messages.Where(msg => msg.ChatId == chatid).ToListAsync();
             return TypedResults.Ok(messages.Select(msg => new MessageResponseModel(msg)));
