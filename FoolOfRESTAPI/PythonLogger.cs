@@ -10,7 +10,7 @@ internal class PythonLogger{
     public PythonLogger(){
         string cwd = Directory.GetCurrentDirectory();
         PythonScriptDirectory = Path.Join(cwd, "TelegramLogger");
-        PythonExecutablePath = Path.Join(PythonScriptDirectory, ".venv", "bin", "python");
+        PythonExecutablePath = Path.Join(PythonScriptDirectory, ".venv", "scripts", "python");
         PythonScriptPath = Path.Join(PythonScriptDirectory, "main.py");
         ProcessStartInfo processInfo = new ProcessStartInfo{
             FileName = PythonExecutablePath,
