@@ -1,5 +1,6 @@
 from telegram import Message
 from datetime import timezone
+from psycopg import Connection
 
 def writeMessage(conn: Connection, message: Message):
     user = message.from_user    
