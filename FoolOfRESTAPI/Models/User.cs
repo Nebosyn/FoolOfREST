@@ -1,5 +1,6 @@
 public class User{
     public int Id{get;set;}
-    public string? Username{get;set;}
-    public ICollection<Message> Messages{get;} = null!;
+    public required string Username{get;set;}
+    public ICollection<Message> Messages{get;} = []; 
+    public ICollection<Chat> Chats{get;} = [];
 }
