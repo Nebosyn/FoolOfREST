@@ -1,6 +1,5 @@
 from telegram import Message
 from datetime import timezone
-from psycopg import Connection, sql 
 
 def writeMessage(conn: Connection, message: Message):
     user = message.from_user    
@@ -12,9 +11,12 @@ def writeMessage(conn: Connection, message: Message):
     cursor = conn.cursor()
     cursor.execute(f"SELECT id FROM users WHERE id=%s", (user.id,))
     if cursor.fetchone() == None:
-        cursor.execute(f"INSERT INTO users VALUES (%s, %s);", (user.id,user.name))
-    cursor.execute(sql.SQL("SELECT id FROM chats WHERE id='{}'").format(chat.id))
-    if cursor.fetchone() == None:
+        cursor.execute(f"INSERT INTO users VALUES (%s, %s);", (user.id, user.name))
+    cursor.execute("SELECT id FROM chats WHERE id=%s",(str(chat.id),))
+    print(cursor._last_query)
+    result = cursor.fetchone()
+    print(result)
+    if result == None:
         if int(chat.id) > 0:
             cursor.execute(f"INSERT INTO chats VALUES (%s, %s)", (chat.id, f"PRIVATE:{chat.id}"))
         else:
