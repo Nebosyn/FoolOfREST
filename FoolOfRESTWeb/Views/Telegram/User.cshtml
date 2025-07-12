@@ -1,0 +1,26 @@
+@using FoolOfRESTWeb.Models.ApiModels;
+@model FoolOfRESTWeb.Models.ApiModels.UserApiModel
+@{
+    ViewData["Title"] = "User Data";
+}
+
+<body class="grid bg-gray-800">
+<div class="grid grid-flow-rows grid-cols-1 w-11/12 border-4 border-gray-400 rounded-xl place-self-center mt-10">
+    <div class="grid grid-flow-col grid-rows-1 bg-gradient-to-r from-gray-900 from-0% via-indigo-900 via-25% to-gray-900 to-100%  w-auto object-left m-2 p-2 rounded-xl " class="items-center">
+        <p class="px-2 text-gray-300">@Model.Username</p>
+        <p class="px-2 place-self-end text-gray-300">ID:@Model.Id</p>
+    </div>
+    <div class="grid grid-flow-row grid-cols-1">
+    <div class="via-75% to-gray-900 to-100% rounded-xl border m-2 *:m-2 p-2">
+    @{
+        foreach (MessageApiModel message in @Model.Messages){
+            <div class="relative place-self-start w-auto p-2 *:p-2 bg-indigo-900 rounded-xl">
+            <p class="text-gray-300">@message.Text</p>
+            <p class="text-gray-400 absolute bottom-0 right-0 text-[10px] ">@message.Date.ToString()</p>
+            </div>
+        }
+    }
+</div>
+    </div>
+</div>
+</body>
