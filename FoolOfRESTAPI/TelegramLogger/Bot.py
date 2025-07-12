@@ -3,7 +3,7 @@ import telegram.ext
 from telegram.ext import ApplicationBuilder, MessageHandler, filters
 
 import Handlers
-import psycopg2
+import psycopg
 
 class Logger():
     app: telegram.ext.Application
@@ -27,5 +27,5 @@ class Logger():
         CONNECTION_STRING = os.getenv("CONNECTION_STRING")
         if CONNECTION_STRING == None:
             exit("No CONNECTION_STRING were provided in .env.")
-        conn = psycopg2.connect(CONNECTION_STRING)
+        conn = psycopg.connect(CONNECTION_STRING)
         self.app.bot_data["database"] = conn

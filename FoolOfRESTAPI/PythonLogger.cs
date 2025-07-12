@@ -10,7 +10,17 @@ internal class PythonLogger{
     public PythonLogger(){
         string cwd = Directory.GetCurrentDirectory();
         PythonScriptDirectory = Path.Join(cwd, "TelegramLogger");
-        PythonExecutablePath = Path.Join(PythonScriptDirectory, ".venv", "scripts", "python");
+        string pythonVenvDirectory = Path.Join(PythonScriptDirectory, ".venv");
+        
+        if (Path.Exists(Path.Join(pythonVenvDirectory, "bin")) == true){
+            PythonExecutablePath = Path.Join(PythonScriptDirectory, ".venv", "bin", "python");
+        }
+        else if (Path.Exists(Path.Join(pythonVenvDirectory, "Scrpits")) == true){
+            PythonExecutablePath = Path.Join(PythonScriptDirectory, ".venv", "Scripts", "python");
+        }
+        else {
+            throw new Exception("Unable to find python executable inside .venv folder");
+        }
         PythonScriptPath = Path.Join(PythonScriptDirectory, "main.py");
         ProcessStartInfo processInfo = new ProcessStartInfo{
             FileName = PythonExecutablePath,

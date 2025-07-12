@@ -22,7 +22,7 @@ or if using **Windows** source via ```activate.bat``` script inside powershell t
 >```Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force```
 
 ```console
-> .\.venv\bin\activate.ps1
+> .\.venv\Scripts\activate.ps1
 ```
 Lastly we'll install python required packages:
 ``` console
@@ -39,19 +39,34 @@ $ pip install -r requirements.txt
 > 
 > Before running the script you need to change execution policy of your powershell terminal, you can do this with this command:
 >```Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force```
+
 **```config_venv.ps1```**
 ## Configuring python's environment table.
-Before launching the program you need to write two variables in .env file in the directory of the python script:
+Before launching the program you need to:
+- Create .env file inside the directory of the python script(```FoolOfRestAPI/TelegramLogger/.env```)
+- Add your personal telegram bot ```TOKEN``` and Postgres ```CONNECTION_STRING``` to it:
+
 ```py
 #FoolOfRestAPI/TelegramLogger/.env
 TOKEN = "<YOUR_TELEGRAM_BOT_TOKEN>"
 CONNECTION_STRING = "<POSTGRES_CONFIGURATION_STRING>"
 ```
+
+### Telegram Bot ```TOKEN```
+To create your own telegram bot TOKEN, use [@BotFather](https://telegram.me/BotFather) in Telegram.
+
+### Postgres ```CONNECTION_STRING```
 > [!WARNING]
 >
-> Please note that variables in the configuration string should be written in lowercase.
->**CONNECTION_STRING** example:
->
->``` CONNECTION_STRING = "host=localhost port=5432 dbname=Database user=username"```
+> Please note that variables in the configuration string should be written in lowercase:
+>#### ``` CONNECTION_STRING = "host=localhost port=5432 dbname=Database user=username"```
 
-To create your own telegram bot TOKEN, use [@BotFather](https://telegram.me/BotFather) bot in telegram.
+Variables differences in **dotConnect(ADO.NET)** and **.env** ```CONNECTION_STRING```:
+| ADO.NET | .env |
+|------|----------|
+|**host**|**host**|
+|**port**|**port**|
+| **database**| **dbname**|
+|**username** | **user** |
+
+More on [Postgres connection string variables](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS).
