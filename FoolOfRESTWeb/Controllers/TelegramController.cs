@@ -15,10 +15,12 @@ public class TelegramController : Controller{
         return View();
     }
 
-    [Route("UserData/{id:int}")]
-    public IActionResult UserData([FromRoute] int id){
+    [Route("Telegram/User/{id:long}")]
+    public IActionResult UserData([FromRoute] long id){
+        Console.WriteLine(id);
         ApiClient api = new ApiClient();
         UserApiModel? user = api.GetUserAsync(id).GetAwaiter().GetResult();
+        Console.WriteLine(user);
         if (user == null){
             return View("UserNull");
         }
@@ -35,7 +37,7 @@ public class TelegramController : Controller{
             _client.BaseAddress = new Uri("http://localhost:5001/");
         }
 
-        public async Task<UserApiModel?> GetUserAsync(int id){
+        public async Task<UserApiModel?> GetUserAsync(long id){
             UserApiModel? user = null;
             HttpResponseMessage response = await _client.GetAsync($"users/{id}");
             if (response.IsSuccessStatusCode){
@@ -51,7 +53,7 @@ public class TelegramController : Controller{
             return user;
         }
 
-        public async Task<List<MessageApiModel>?> GetUserMessagesAsync(int userId){
+        public async Task<List<MessageApiModel>?> GetUserMessagesAsync(long userId){
             List<MessageApiModel>? messages = null;
             HttpResponseMessage response = await _client.GetAsync($"usersmessages/{userId}");
             if (response.IsSuccessStatusCode){

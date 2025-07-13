@@ -11,12 +11,12 @@
         <p class="px-2 place-self-end text-gray-300">ID:@Model.Id</p>
     </div>
     <div class="grid grid-flow-row grid-cols-1">
-    <div class="via-75% to-gray-900 to-100% rounded-xl border m-2 *:m-2 p-2">
+    <div class="bg-gray-900 rounded-xl m-2 *:m-2 p-2">
     @{
         foreach (MessageApiModel message in @Model.Messages){
-            <div class="relative place-self-start w-auto p-2 *:p-2 bg-indigo-900 rounded-xl">
-            <p class="text-gray-300">@message.Text</p>
-            <p class="text-gray-400 absolute bottom-0 right-0 text-[10px] ">@message.Date.ToString()</p>
+            <div class="border-1 border-gray-400 relative h-auto whitespace-pre-line grid place-self-start w-auto p-2 *:p-1 bg-gradient-to-r from-gray-900 to-indigo-950 to-75% rounded-xl">
+            <p class="pl-1 text-gray-300 text-wrap">@message.Text</p>
+            <p class="absolute bottom-0 right-0 text-gray-400 text-[10px] ">@message.Date.ToString()</p>
             </div>
         }
     }
