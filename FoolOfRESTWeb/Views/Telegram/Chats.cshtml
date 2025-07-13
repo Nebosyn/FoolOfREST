@@ -1,21 +1,39 @@
+@using FoolOfRESTWeb.Models.ApiModels
+@using FoolOfRESTWeb.Controllers
 @{
     ViewData["Title"] = "Chats";
+    var api = ViewData["ApiClient"] as ApiClient;
 }
 
-<html>
-
-<body>
-    <div class="flex sm:flex-col sm:items-center *:text-center *:px-3">
-    <div class="border-2 rounded-xl">
-    TEST TEXT!
-    </div>
-    <div class="border-2 rounded-xl">
-    TEST TEXT!
-    </div>
-    <div class="border-2 rounded-xl">
-    TEST TEXT!
-    </div>
-    </div
+<body class="content-center bg-gray-800 grid grid-cols-1">
+    <table class="place-self-center w-1/2 mt-10 table-auto border-separate rounded-xl border-gray-400 border-2 *:text-gray-300">
+        <thead>
+        <tr class="*:pb-1 pl-3 p-2">
+        <th>Title</th>
+        <th>Id</th>
+        <th>Messages Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{
+            List<ChatApiModel>? chats = null;
+            chats = await api.GetChats();
+            if (chats == null) return;
+            foreach (ChatApiModel? chat in chats){
+                @if (chat != null){
+                    <tr class="*:border-gray-300 *:border *:text-center *:rounded-xl *:p-1 *:px-2">
+                        <td><a asp-controller="Telegram" asp-action="ChatData" asp-route-id="@chat.Id" class="hover:opacity-80">@chat.Name</a></td>
+                        <td>@chat.Id</td>
+                        @if (chat.Messages != null) {<td>@chat.Messages.Count()</td>}
+                        else Console.WriteLine("Messages are Null");
+                    </tr>
+                }
+                else Console.WriteLine("ChatNull");
+                
+            }
+        }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
 </body>
-
-</html>

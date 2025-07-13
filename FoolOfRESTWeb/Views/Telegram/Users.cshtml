@@ -11,19 +11,25 @@
         <tr class="*:pb-1 pl-3 p-2">
         <th>Username</th>
         <th>Id</th>
-        <th class="dir-d">Messages Count</th>
+        <th>Messages Count</th>
         </tr>
         </thead>
         <tbody >
         @{
-            UserApiModel user = await api.GetUserAsync(434060273);
-        }
-        @if (user != null){
-        <tr class="*:border-gray-300 *:border *:text-center *:rounded-xl *:p-1 *:px-2">
-            <td><a asp-controller="Telegram" asp-action="UserData" asp-route-id="@user.Id" class="hover:opacity-80">@user.Username</a></td>
-            <td>@user.Id</td>
-            @if (user.Messages != null) {<td>@user.Messages.Count()</td>}
-        </tr>
+            List<UserApiModel>? users = await api.GetUsers();
+            if (users == null) return;
+            foreach (UserApiModel? user in users){
+                @if (user != null){
+                    <tr class="*:border-gray-300 *:border *:text-center *:rounded-xl *:p-1 *:px-2">
+                        <td><a asp-controller="Telegram" asp-action="UserData" asp-route-id="@user.Id" class="hover:opacity-80">@user.Username</a></td>
+                        <td>@user.Id</td>
+                        @if (user.Messages != null) {<td>@user.Messages.Count()</td>}
+                        else Console.WriteLine("Messages are Null");
+                    </tr>
+                }
+                else Console.WriteLine("UserNull");
+                
+            }
         }
         </tbody>
         <tfoot>
