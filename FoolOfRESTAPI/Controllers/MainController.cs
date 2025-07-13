@@ -13,7 +13,7 @@ namespace FoolOfRESTAPI.Controllers
             _db = db;
         }
 
-        [Route("messages")]
+        [Route("messages/")]
         [HttpGet]
         public async Task<Ok<IEnumerable<MessageResponseModel>>> Messages()
         {
@@ -23,7 +23,7 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("usermessages/{userid}")]
         [HttpGet]
-        public async Task<Ok<IEnumerable<MessageResponseModel>>> UsersMessages([FromRoute] int userid)
+        public async Task<Ok<IEnumerable<MessageResponseModel>>> UsersMessages([FromRoute] long userid)
         {
             List<Message> messages = await _db.Messages.Where(msg => msg.UserId == userid).ToListAsync();
             return TypedResults.Ok(messages.Select(msg => new MessageResponseModel(msg)));
@@ -58,7 +58,7 @@ namespace FoolOfRESTAPI.Controllers
             }
         }
 
-        [Route("users")]
+        [Route("users/")]
         [HttpGet]
         public async Task<Ok<IEnumerable<UserResponseModel>>> Users(){
             List<User> users = await _db.Users.ToListAsync();
@@ -67,7 +67,7 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("users/{id}")]
         [HttpGet]
-        public async Task<Results<Ok<UserResponseModel>, NotFound>> UserById([FromRoute] int id)
+        public async Task<Results<Ok<UserResponseModel>, NotFound>> UserById([FromRoute] long id)
         {
             try
             {
