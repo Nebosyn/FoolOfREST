@@ -7,6 +7,7 @@ public class TelegramController : Controller{
 
 
     public IActionResult Chats(){
+        ViewData["ApiClient"] = new ApiClient();
         return View();
     }
 
@@ -46,18 +47,62 @@ public class TelegramController : Controller{
 
             if (user == null) return user;
 
-            response = await _client.GetAsync($"usermessages/{id}");
-            if (response.IsSuccessStatusCode){
-                user.Messages = await response.Content.ReadFromJsonAsync<List<MessageApiModel>>();
-            }
+            user.Messages = await GetUserMessagesAsync(user.Id);
             return user;
+        }
+
+        public async Task<List<UserApiModel>?> GetUsers(){
+            List<UserApiModel>? users = null; 
+            HttpResponseMessage response = await _client.GetAsync("users/");
+            Console.Write("Status code:");
+            Console.WriteLine(response.StatusCode);
+            if (response.IsSuccessStatusCode){
+                users = await response.Content.ReadFromJsonAsync<List<UserApiModel>>();
+            }
+            if (users != null){
+                Console.WriteLine("Adding messages");
+                foreach (UserApiModel user in users){
+                    user.Messages = await GetUserMessagesAsync(user.Id);
+                }
+            }
+            return users;
+        }
+
+
+        public async Task<List<ChatApiModel>?> GetChats(){
+            List<ChatApiModel>? chats = null; 
+            HttpResponseMessage response = await _client.GetAsync("chats/");
+            Console.Write("Status code:");
+            Console.WriteLine(response.StatusCode);
+            if (response.IsSuccessStatusCode){
+                chats = await response.Content.ReadFromJsonAsync<List<ChatApiModel>>();
+            }
+            if (chats != null){
+                Console.WriteLine("Adding messages");
+                foreach (ChatApiModel chat in chats){
+                    chat.Messages = await GetChatMessagesAsync(chat.Id);
+                    //chat.Users = await GetChatUsersAsync(chat.Id);
+                }
+            }
+            return chats;
+        }
+
+        public async Task<List<MessageApiModel>?> GetChatMessagesAsync(long chatId){
+            List<MessageApiModel>? messages = null;
+            HttpResponseMessage response = await _client.GetAsync($"chatmessages/{chatId}");
+            Console.WriteLine($"ChatMessages code: {response.StatusCode}");
+            if (response.IsSuccessStatusCode){
+                return await response.Content.ReadFromJsonAsync<List<MessageApiModel>>();
+            }
+            return messages;
         }
 
         public async Task<List<MessageApiModel>?> GetUserMessagesAsync(long userId){
             List<MessageApiModel>? messages = null;
-            HttpResponseMessage response = await _client.GetAsync($"usersmessages/{userId}");
+            HttpResponseMessage response = await _client.GetAsync($"usermessages/{userId}");
+            Console.WriteLine($"UserMessages code: {response.StatusCode}");
             if (response.IsSuccessStatusCode){
-                messages = await response.Content.ReadFromJsonAsync<List<MessageApiModel>>();
+                return await response.Content.ReadFromJsonAsync<List<MessageApiModel>>();
             }
             return messages;
         }
