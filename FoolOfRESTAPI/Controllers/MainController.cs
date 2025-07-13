@@ -1,5 +1,4 @@
 ﻿using FoolOfRESTAPI.Models.ResponseModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +31,7 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("chatmessages/{chatid}")]
         [HttpGet]
-        public async Task<Ok<IEnumerable<MessageResponseModel>>>ChatsMessages([FromRoute] string chatid)
+        public async Task<Ok<IEnumerable<MessageResponseModel>>>ChatsMessages([FromRoute] long chatid)
         {
             List<Message> messages = await _db.Messages.Where(msg => msg.ChatId == chatid).ToListAsync();
             return TypedResults.Ok(messages.Select(msg => new MessageResponseModel(msg)));
@@ -80,7 +79,7 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("chats/{id}")]
         [HttpGet]
-        public async Task<Results<Ok<ChatResponseModel>, NotFound>> ChatById([FromRoute] string id)
+        public async Task<Results<Ok<ChatResponseModel>, NotFound>> ChatById([FromRoute] long id)
         {
             try
             {

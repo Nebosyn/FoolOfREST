@@ -2,7 +2,7 @@
 {
     public class ChatResponseModel
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public ChatResponseModel(Chat chat)
         {

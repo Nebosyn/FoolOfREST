@@ -2,7 +2,7 @@
 {
     public class UserResponseModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Username { get; set; }
         public UserResponseModel(User user)
         {
