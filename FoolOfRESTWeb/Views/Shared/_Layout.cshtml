@@ -8,24 +8,19 @@
     <link rel="stylesheet" href="~/css/styles.css"/>
     <link rel="stylesheet" href="~/FoolOfRESTWeb.styles.css" asp-append-version="true" />
 </head>
-<body class="bg-gray-800">
-    <header>
-    <nav class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 ">
-    <div class="flex flex-row flex-nowrap items-center [&>a]:text-white [&>a]:px-2 *:hover:opacity-80 *:place-content-center *:rounded-xl *:font-sans *:border-2 h-15 *:h-10 *:object-contain  space-x-1 *: no-underline border-solid rounded-full">
-        <img class="object-contain " src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" alt="Github Account"> </img>
-        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-        <a asp-area="" asp-controller="Telegram" asp-action="Chats">Chats</a>
-    </div>
-    </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+<header>
+<nav class="bg-gradient-to-r from-gray-900 via-indigo-950 to-gray-900 ">
+<div class="flex flex-row flex-nowrap items-center [&>a]:text-white [&>a]:px-2 *:hover:opacity-80 *:place-content-center *:rounded-xl *:font-sans *:border-2 h-15 *:h-10 *:object-contain  space-x-1 *: no-underline border-solid rounded-full">
+    <img class="object-contain " src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" alt="https://github.com/Nebosyn/FoolOfREST"> </img>
+    <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    <a asp-area="" asp-controller="Telegram" asp-action="Chats">Chats</a>
+    <a asp-area="" asp-controller="Telegram" asp-action="Users">Users</a>
+</div>
+</nav>
+</header>
+@RenderBody()
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </html>

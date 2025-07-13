@@ -1,0 +1,32 @@
+@using FoolOfRESTWeb.Models.ApiModels
+@using FoolOfRESTWeb.Controllers
+@{
+    ViewData["Title"] = "Users";
+    var api = ViewData["ApiClient"] as ApiClient;
+}
+
+<body class="content-center bg-gray-800 grid grid-cols-1">
+    <table class="place-self-center w-1/2 mt-10 table-auto border-separate rounded-xl border-gray-400 border-2 *:text-gray-300">
+        <thead>
+        <tr class="*:pb-1 pl-3 p-2">
+        <th>Username</th>
+        <th>Id</th>
+        <th class="dir-d">Messages Count</th>
+        </tr>
+        </thead>
+        <tbody >
+        @{
+            UserApiModel user = await api.GetUserAsync(434060273);
+        }
+        @if (user != null){
+        <tr class="*:border-gray-300 *:border *:text-center *:rounded-xl *:p-1 *:px-2">
+            <td><a asp-controller="Telegram" asp-action="UserData" asp-route-id="@user.Id" class="hover:opacity-80">@user.Username</a></td>
+            <td>@user.Id</td>
+            @if (user.Messages != null) {<td>@user.Messages.Count()</td>}
+        </tr>
+        }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</body>
