@@ -9,7 +9,7 @@ namespace FoolOfRESTAPI.Controllers
     public class MainController : ControllerBase
     {
         AppDbContext _db;
-        public MainController(AppDbContext db) {
+        public MainController(AppDbContext db){
             _db = db;
         }
 
@@ -58,6 +58,13 @@ namespace FoolOfRESTAPI.Controllers
             }
         }
 
+        [Route("users")]
+        [HttpGet]
+        public async Task<Ok<IEnumerable<UserResponseModel>>> Users(){
+            List<User> users = await _db.Users.ToListAsync();
+            return TypedResults.Ok(users.Select(msg => new UserResponseModel(msg)));
+        }
+
         [Route("users/{id}")]
         [HttpGet]
         public async Task<Results<Ok<UserResponseModel>, NotFound>> UserById([FromRoute] int id)
@@ -75,6 +82,13 @@ namespace FoolOfRESTAPI.Controllers
                 }
                 throw;
             }
+        }
+
+        [Route("chats")]
+        [HttpGet]
+        public async Task<Ok<IEnumerable<ChatResponseModel>>> Chats(){
+            List<Chat> chats = await _db.Chats.ToListAsync();
+            return TypedResults.Ok(chats.Select(msg => new ChatResponseModel(msg)));
         }
 
         [Route("chats/{id}")]
