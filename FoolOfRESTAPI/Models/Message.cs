@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 public class Message{
     public int Id{get; set;}
 
-    public required long ChatId{get; set;}
+    public long ChatId{get; set;}
     public required Chat Chat{get; set;}
 
     public long UserId{get; set;}

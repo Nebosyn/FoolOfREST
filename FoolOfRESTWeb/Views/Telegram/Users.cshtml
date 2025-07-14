@@ -16,7 +16,7 @@
         </thead>
         <tbody >
         @{
-            List<UserApiModel>? users = await api.GetUsers();
+            List<UserApiModel>? users = await api.GetUsersAsync();
             if (users == null) return;
             foreach (UserApiModel? user in users){
                 @if (user != null){

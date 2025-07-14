@@ -16,9 +16,19 @@ public class TelegramController : Controller{
         return View();
     }
 
+    [Route("Telegram/Chat/{id:long}")]
+    public IActionResult ChatData([FromRoute] long id){
+        ApiClient api = new ApiClient();
+        ChatApiModel? chat = api.GetChatAsync(id).GetAwaiter().GetResult();
+        Console.WriteLine(chat);
+        if (chat == null){
+            return View("ChatNull");
+        }
+        return View("Chat", chat);
+    }
+
     [Route("Telegram/User/{id:long}")]
     public IActionResult UserData([FromRoute] long id){
-        Console.WriteLine(id);
         ApiClient api = new ApiClient();
         UserApiModel? user = api.GetUserAsync(id).GetAwaiter().GetResult();
         Console.WriteLine(user);
@@ -38,6 +48,31 @@ public class TelegramController : Controller{
             _client.BaseAddress = new Uri("http://localhost:5001/");
         }
 
+        public async Task<ChatApiModel?> GetChatAsync(long id){
+            ChatApiModel? chat = null;
+            HttpResponseMessage response = await _client.GetAsync($"chats/{id}");
+            if (response.IsSuccessStatusCode){
+                chat = await response.Content.ReadFromJsonAsync<ChatApiModel>();
+            }
+
+            if (chat == null) return chat;
+
+            chat.Messages = await GetChatMessagesAsync(chat.Id);
+            chat.Users = await GetChatUsersAsync(chat.Id);
+            return chat;
+        }
+
+        public async Task<List<UserApiModel>?> GetChatUsersAsync(long chatId){
+            List<UserApiModel>? users = null;
+            HttpResponseMessage response = await _client.GetAsync($"chatusers/{chatId}");
+            if (response.IsSuccessStatusCode){
+                users = await response.Content.ReadFromJsonAsync<List<UserApiModel>>();
+            }
+
+            if (users == null) return users;
+            return users;
+        }
+
         public async Task<UserApiModel?> GetUserAsync(long id){
             UserApiModel? user = null;
             HttpResponseMessage response = await _client.GetAsync($"users/{id}");
@@ -51,7 +86,7 @@ public class TelegramController : Controller{
             return user;
         }
 
-        public async Task<List<UserApiModel>?> GetUsers(){
+        public async Task<List<UserApiModel>?> GetUsersAsync(){
             List<UserApiModel>? users = null; 
             HttpResponseMessage response = await _client.GetAsync("users/");
             Console.Write("Status code:");
@@ -69,7 +104,7 @@ public class TelegramController : Controller{
         }
 
 
-        public async Task<List<ChatApiModel>?> GetChats(){
+        public async Task<List<ChatApiModel>?> GetChatsAsync(){
             List<ChatApiModel>? chats = null; 
             HttpResponseMessage response = await _client.GetAsync("chats/");
             Console.Write("Status code:");
@@ -81,7 +116,7 @@ public class TelegramController : Controller{
                 Console.WriteLine("Adding messages");
                 foreach (ChatApiModel chat in chats){
                     chat.Messages = await GetChatMessagesAsync(chat.Id);
-                    //chat.Users = await GetChatUsersAsync(chat.Id);
+                    chat.Users = await GetChatUsersAsync(chat.Id);
                 }
             }
             return chats;
