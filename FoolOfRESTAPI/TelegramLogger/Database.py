@@ -14,9 +14,6 @@ def writeMessage(conn: Connection, message: Message):
     if cursor.fetchone() == None:
         cursor.execute(f"INSERT INTO users VALUES (%s, %s);", (user.id, user.name))
     cursor.execute("SELECT id FROM chats WHERE id=%s",(str(chat.id),))
-    #print(cursor._last_query)
-    #result = cursor.fetchone()
-    #print(result)
     if cursor.fetchone() == None:
         if int(chat.id) > 0:
             cursor.execute(f"INSERT INTO chats VALUES (%s, %s)", (chat.id, f"PRIVATE:{chat.id}"))
