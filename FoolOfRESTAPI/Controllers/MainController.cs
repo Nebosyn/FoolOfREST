@@ -6,17 +6,25 @@ using Microsoft.EntityFrameworkCore;
 namespace FoolOfRESTAPI.Controllers
 {
     [ApiController]
-    public class MainController : ControllerBase
+    public class MainController: ControllerBase
     {
-        AppDbContext _db;
+        private readonly AppDbContext _db;
         public MainController(AppDbContext db){
             _db = db;
         }
 
+        static private bool ApiKeyVerification(IHeaderDictionary header){
+            if (ApiKey.Key == null) {return true;}
+            if (!header.TryGetValue("APIKEY",out var key)){return false;}
+            if (key != ApiKey.Key) {return false;}
+            return true;
+        }
+
         [Route("messages/")]
         [HttpGet]
-        public async Task<Ok<IEnumerable<MessageResponseModel>>> Messages()
+        public async Task<Results<Ok<IEnumerable<MessageResponseModel>>, UnauthorizedHttpResult>> Messages()
         {
+            if (ApiKeyVerification(Request.Headers) == false) {return TypedResults.Unauthorized();}
             List<Message> messages = await _db.Messages
                 .Include(msg => msg.User)
                 .AsSplitQuery()
@@ -27,8 +35,9 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("usermessages/{userid}")]
         [HttpGet]
-        public async Task<Ok<IEnumerable<MessageResponseModel>>> UsersMessages([FromRoute] long userid)
+        public async Task<Results<Ok<IEnumerable<MessageResponseModel>>, UnauthorizedHttpResult>> UsersMessages([FromRoute] long userid)
         {
+            if (ApiKeyVerification(Request.Headers) == false) {return TypedResults.Unauthorized();}
             List<Message> messages = await _db.Messages
                 .Where(msg => msg.UserId == userid)
                 .Include(msg => msg.User)
@@ -40,8 +49,9 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("chatmessages/{chatid}")]
         [HttpGet]
-        public async Task<Ok<IEnumerable<MessageResponseModel>>> ChatsMessages([FromRoute] long chatid)
+        public async Task<Results<Ok<IEnumerable<MessageResponseModel>>, UnauthorizedHttpResult>> ChatsMessages([FromRoute] long chatid)
         {
+            if (ApiKeyVerification(Request.Headers) == false) {return TypedResults.Unauthorized();}
             List<Message> messages = await _db.Messages
                 .Where(msg => msg.ChatId == chatid)
                 .Include(msg => msg.User)
@@ -53,8 +63,9 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("chatusers/{chatid}")]
         [HttpGet]
-        public async Task<Ok<IEnumerable<UserResponseModel>>>ChatsUsers([FromRoute] long chatid)
+        public async Task<Results<Ok<IEnumerable<UserResponseModel>>, UnauthorizedHttpResult>>ChatsUsers([FromRoute] long chatid)
         {
+            if (ApiKeyVerification(Request.Headers) == false) {return TypedResults.Unauthorized();}
             Chat chat = await _db.Chats
                 .Include(chat => chat.Users)
                 .FirstAsync(chat => chat.Id ==  chatid);
@@ -63,79 +74,53 @@ namespace FoolOfRESTAPI.Controllers
 
         [Route("messages/{id}")]
         [HttpGet]
-        public async Task<Results<Ok<MessageResponseModel>, NotFound>> MessageById([FromRoute] int id)
+        public async Task<Results<Ok<MessageResponseModel>, NotFound, UnauthorizedHttpResult>> MessageById([FromRoute] int id)
         {
-            try
-            {
-                var msg = await _db.Messages
-                    .Include(msg => msg.User)
-                    .AsSplitQuery()
-                    .Include(msg => msg.Chat)
-                    .FirstAsync(x => x.Id == id);
-                MessageResponseModel response = new(msg);
-                return TypedResults.Ok(response);
-            }
-            catch (InvalidOperationException e)
-            {
-                if (e.Message == "Sequence contains no elements.")
-                {
-                    return TypedResults.NotFound();
-                }
-                throw;
-            }
+            if (ApiKeyVerification(Request.Headers) == false) {return TypedResults.Unauthorized();}
+            Message? message = await _db.Messages
+                .Include(msg => msg.User)
+                .AsSplitQuery()
+                .Include(msg => msg.Chat)
+                .FirstAsync(x => x.Id == id);
+            if (message == null) {return TypedResults.NotFound();}
+            MessageResponseModel response = new(message);
+            return TypedResults.Ok(response);
         }
 
         [Route("users/")]
         [HttpGet]
-        public async Task<Ok<IEnumerable<UserResponseModel>>> Users(){
+        public async Task<Results<Ok<IEnumerable<UserResponseModel>>, UnauthorizedHttpResult>> Users(){
+            if (ApiKeyVerification(Request.Headers) == false) {return TypedResults.Unauthorized();}
             List<User> users = await _db.Users.ToListAsync();
             return TypedResults.Ok(users.Select(msg => new UserResponseModel(msg)));
         }
 
         [Route("users/{id}")]
         [HttpGet]
-        public async Task<Results<Ok<UserResponseModel>, NotFound>> UserById([FromRoute] long id)
+        public async Task<Results<Ok<UserResponseModel>, NotFound, UnauthorizedHttpResult>> UserById([FromRoute] long id)
         {
-            try
-            {
-                var res = await _db.Users.FirstAsync(x => x.Id == id);
-                return TypedResults.Ok(new UserResponseModel(res));
-            }
-            catch (InvalidOperationException e)
-            {
-                if (e.Message == "Sequence contains no elements.")
-                {
-                    return TypedResults.NotFound();
-                }
-                throw;
-            }
+            if (ApiKeyVerification(Request.Headers) == false) {return TypedResults.Unauthorized();}
+            var response = await _db.Users.FirstAsync(x => x.Id == id);
+            if (response == null) {return TypedResults.NotFound();}
+            return TypedResults.Ok(new UserResponseModel(response));
         }
 
         [Route("chats")]
         [HttpGet]
-        public async Task<Ok<IEnumerable<ChatResponseModel>>> Chats(){
+        public async Task<Results<Ok<IEnumerable<ChatResponseModel>>,UnauthorizedHttpResult>> Chats(){
+            if (ApiKeyVerification(Request.Headers) == false) {return TypedResults.Unauthorized();}
             List<Chat> chats = await _db.Chats.ToListAsync();
             return TypedResults.Ok(chats.Select(msg => new ChatResponseModel(msg)));
         }
 
         [Route("chats/{id}")]
         [HttpGet]
-        public async Task<Results<Ok<ChatResponseModel>, NotFound>> ChatById([FromRoute] long id)
+        public async Task<Results<Ok<ChatResponseModel>, NotFound, UnauthorizedHttpResult>> ChatById([FromRoute] long id)
         {
-            try
-            {
-                var res = await _db.Chats.FirstAsync(x => x.Id == id);
-                return TypedResults.Ok(new ChatResponseModel(res));
-            }
-            catch (InvalidOperationException e)
-            {
-                if (e.Message == "Sequence contains no elements.")
-                {
-                    return TypedResults.NotFound();
-                }
-                throw;
-            }
+            if (ApiKeyVerification(Request.Headers) == false) {return TypedResults.Unauthorized();}
+            var response = await _db.Chats.FirstAsync(x => x.Id == id);
+            if (response == null) return TypedResults.NotFound();
+            return TypedResults.Ok(new ChatResponseModel(response));
+        }
         }
     }
-
-}

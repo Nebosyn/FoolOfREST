@@ -2,6 +2,7 @@
 @model FoolOfRESTWeb.Models.ApiModels.UserApiModel
 @{
     ViewData["Title"] = "User Data";
+    if (@Model == null){ throw new NullReferenceException("User model cannot be nullon page"); }
 }
 
 <body class="grid bg-gray-800">
@@ -13,6 +14,7 @@
     <div class="grid grid-flow-row grid-cols-1">
     <div class="bg-gray-900 rounded-xl m-2 *:m-2 p-2">
     @{
+        if (@Model.Messages == null) return;
         foreach (MessageApiModel message in @Model.Messages){
             <div class="border-1 border-gray-400 relative h-auto grid place-self-start w-auto p-2 *:p-1 bg-gradient-to-r from-gray-900 to-indigo-950 to-75% rounded-xl text-wrap">
             <a class="pl-1 font-bold text-gray-300 hover:opacity-80" asp-controller="Telegram" asp-action="ChatData" asp-route-id="@message.Chat.Id">

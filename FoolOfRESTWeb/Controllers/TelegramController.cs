@@ -42,10 +42,13 @@ public class TelegramController : Controller{
     public class ApiClient{
 
         public HttpClient _client;
+        private string _apiKey;
 
         public ApiClient(){
             _client = new HttpClient();
             _client.BaseAddress = new Uri("http://localhost:5001/");
+            _apiKey = ApiKey.Read();
+            _client.DefaultRequestHeaders.Add("APIKEY", _apiKey);
         }
 
         public async Task<ChatApiModel?> GetChatAsync(long id){

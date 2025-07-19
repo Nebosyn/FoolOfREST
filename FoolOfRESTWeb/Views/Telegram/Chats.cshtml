@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Chats";
     var api = ViewData["ApiClient"] as ApiClient;
+    if (api == null) {throw new NullReferenceException("ApiClient class cannot be null on page.");}
 }
 
 <body class="content-center bg-gray-800 grid grid-cols-1">

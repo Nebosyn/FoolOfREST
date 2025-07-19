@@ -1,9 +1,8 @@
-using FoolOfRESTAPI.Models.ResponseModels;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+ApiKey.Generate();
 var pythonProcess = new PythonLogger();
 
 builder.Services.AddOpenApi();
@@ -19,4 +18,3 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run("http://localhost:5001");
-
