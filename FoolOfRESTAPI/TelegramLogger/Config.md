@@ -1,11 +1,10 @@
 # Python logger configuration
 ## Python version
-For this project please use python version 3.12 or 3.13. Psycopg2 library used in this repository, isn't supported by python 3.14.
+For this project please use python version from 3.10 to 3.13. Psycopg3 library used in this repository, isn't supported by python 3.14.
 ## Configuring python's virtual environment
 
 ### Manually
 To configure virtual environment we essentially need only several commands. 
-
 First we'll need to create venv:
 ```console
 $ python -m venv .venv
@@ -15,7 +14,6 @@ then source into it via activation file inside ```/.venv/bin/activate```:
 $ source .venv/bin/activate
 ```
 or if using **Windows** source via ```activate.bat``` script inside powershell terminal:
-
 > [!NOTE]
 > 
 > Before running the script you need to change execution policy of your powershell terminal, you can do this with this command:
